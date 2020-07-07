@@ -32,10 +32,10 @@ defmodule MyAppWeb.UserController do
         conn
         |> put_status(:created)
         |> render("show.json", user: user)
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(Auth.User.ChangesetView, "error.json", changeset: changeset)
+        {:error, result} ->
+          conn
+          json conn |> put_status(:bad_request),
+                       %{errors: ["email or name has been registered !"]}
     end
   end
 
